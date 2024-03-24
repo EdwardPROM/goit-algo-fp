@@ -1,43 +1,31 @@
 import turtle
 
-# Рекурсивна функція для дерева Піфагора
-def pifagorian_tree(t, deepth, size, angle):
-    if deepth == 0:
-        t.backward(size/0.8)
+def pifagorian_tree(branch_length, t, angle, depth):
+    if depth == 0:
+        return
     else:
+        t.forward(branch_length)
         t.right(angle)
-        t.forward(size)
-        pifagorian_tree(t, deepth - 1, size*0.8, angle)
-        t.left(angle*2)
-        t.forward(size)
-        pifagorian_tree(t, deepth - 1, size*0.8, angle)
+        pifagorian_tree(0.8 * branch_length, t, angle, depth - 1)
+        t.left(2 * angle)
+        pifagorian_tree(0.8 * branch_length, t, angle, depth - 1)
         t.right(angle)
-        t.backward(size/0.8)
+        t.backward(branch_length)
 
-def draw_pifagorian_tree(depth):
-    window = turtle.Screen()
-    window.bgcolor("white")
-    size = 128
+def draw_pifagorian_tree():
+    screen = turtle.Screen()
+    screen.bgcolor("white")
+
     t = turtle.Turtle()
     t.speed(0)
-    t.penup()
-    t.goto(0, -200)
+    t.color("green")
+    t.width(2)
+
+    depth = int(turtle.textinput("Введіть глибину дерева:", "Глибина"))
+
     t.left(90)
-    t.pendown()
-    pifagorian_tree(t, depth, size, 45)
-    window.mainloop()
+    pifagorian_tree(100, t, 45, depth)
 
-# Ввід глубини дерева
-def main():
-    user_input = input('Введіть глибину дерева: ')
-    try:
-        depth = int(user_input)
-        if depth > 0:
-            draw_pifagorian_tree(depth)
-        else:
-            print('Введіть додатне ціле число.')
-    except ValueError:
-        print('Введіть коректне ціле число.')
+    turtle.done()
 
-if __name__ == "__main__":
-    main()
+draw_pifagorian_tree()
